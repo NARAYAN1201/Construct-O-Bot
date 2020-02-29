@@ -1,31 +1,31 @@
 
-//header files
-
+//header files for adding c functionality
 #include<stdio.h>
 #include<conio.h>
 #define INFINITY 9999
 
 //declarations of the functions
+
 void dijkstra(int G[16][16],int n,int startnode,int endnode);
 void h(int G[16][16],int house);
 int arena(int start,int end);
 void eyantra();
 
-//global variables
+//defining global variables 
 
-int floor_array[5]={1,0,0,1,0};
-int house_total_requirement[5] = {2,2,2,1,2};
-int which_material[10]={11,1,2,0,0,0,0,0,0,0};
-int left,right,up,down;//directions variables
-int current_node = 1; //for checking up the status
+int floor_array[5]={1,0,0,1,0};//for taking the priority for high rise house (1) and low level(0)
+int house_total_requirement[5] = {2,2,2,1,2}; //represent no . of requirement of boxes
+int which_material[10]={0,0,0,0,0,0,0,0,2,1};//represent the address of blocks 
+int left,right,up,down;//directions variables defined globally for everywhere accessible
+int current_node = 1; //for checking up the current status of bot based on position
 
 //function for setting the directions
 void set_direction()
 {
-    left =0;
+    left =0; //taking left ,right ,up and down directions
     right = 0;
     up =0;
-    down =1;
+    down =1;//by default we are taking downward direction
 }
 
 //tasking functions
@@ -57,37 +57,35 @@ void forward()
 	printf("moving forward\n");
 }
 
-//tasking functions ending here
-
-//general purposes functions are here
-void house_decision(int G[16][16],int house)
+//path regarding/tasking functions help to decide house . it will decide ,where we have to place the box  
+void house_decision(int G[16][16],int house)//in house variable we are sending the no. of house
 {
-         if(house ==1)
+         if(house ==1) //condition for house one
            {
                 dijkstra(G,16,current_node,5);
-                current_node=5;
+                current_node=5;//changing the currrent status
                 if(up==1)
                   {
                     leftside();
                     left =1;
-                    up =0;
+                    up =0;    //for changing the previous diection ,adding 0  to previous direction and  1 to new direction
                   }
                 if(down == 1)
                   {
-                     rightside();
+                     rightside();//rotating along rightside
                      down =0;
                      left=1;
                   }
 
             }
-          else if(house ==2)
+          else if(house ==2)//condition for house 2
             {
                     dijkstra(G,16,current_node,6);
                     current_node=6;
                     if(up==1)
                      {
                           up=0;
-                          right=1;
+                          right=1;//for changing the direction
                           rightside();
                      }
                      if(down ==1)
@@ -97,13 +95,13 @@ void house_decision(int G[16][16],int house)
                           leftside();
                        }
              }
-            else if(house ==3)
+            else if(house ==3)//condition for house 3
              {
                     dijkstra(G,16,current_node,9);
                     current_node=9;
                     if(up==1)
                     {
-                      leftside();
+                      leftside();//rotate along left side
                       left =1;
                       up =0;
                     }
@@ -114,27 +112,27 @@ void house_decision(int G[16][16],int house)
                        left=1;
                     }
               }
-            else if(house ==4)
+            else if(house ==4)//condition for house 4
               {
                     dijkstra(G,16,current_node,10);
-                    current_node=10;
+                    current_node=10;//changing the current node position 
                     if(up==1)
                       {
                           up=0;
                           right=1;
-                          rightside();
+                          rightside();//rightside function to rotate along right side
 
                       }
                     if(down ==1)
                       {
                           down=0;
                           right =1;
-                          leftside();
+                          leftside();//leftside fuction to rotate along left side
                       }
                 }
-            else
+            else//condition for house 5 (taking default becauuse no any house is left more)
                  {
-                     dijkstra(G,16,current_node,14);
+                     dijkstra(G,16,current_node,14);//calling this function we are getting correct path
                      current_node=14;
                      if(left ==1)
                      {
@@ -146,18 +144,20 @@ void house_decision(int G[16][16],int house)
                      {
                          right = 0;
                          rightside();
-                         down=1;
+                         down=1;//changing the direction 
                      }
                   }
-                 place();
+                //upper all the conditions just send us to specific position where we have to perform placing
+                 place();//place function to perform placing 
 
 }
 
-//arena defined
 
-int arena(int start,int end)
+//defining the function arena to get direction of end from the start
+int arena(int start,int end) //
 {
     int i,j;
+    //specifiy the special cases in arena based on specials conections 1.wall connection and 2. Zig-Zag connection
     if(start ==5 && end == 6)
         return  2;
     if(start == 6 && end ==5)
@@ -170,13 +170,13 @@ int arena(int start,int end)
     {
 
         {
-            13,14,15
+            13,14,15 //14 is an intermidatery node between 13 and 15
         },
         {
             12,-1,11
         },
         {
-            9,-1,10
+            9,-1,10 //if there is no any intermidate node betwe 2 nodes then we add it as -1
         },
         {
             8,-1,7
@@ -197,31 +197,32 @@ for(i =0;i<7;i++)
   for( j=0;j<3;j++)
   {
 
-    if(arr[i][j]==start)
+    if(arr[i][j]==start) //first we find node with whom we have to make connection
     {
 
            if(arr[i-1][j]==end && i-1!=-1)
-             return 3;
+             return 3;//3 for up direction
            else if(arr[i+1][j]==end && i+1 !=7)
-             return 4;
+             return 4; //4 for downward direction 
            else if(arr[i][j-1]==end && j-1 !=-1)
-             return 1;
+             return 1;//1 for left
            else
-             return 2;
+             return 2;//2 for right
     }
   }
 
 }
 
-//function for giving the path
+//Dijkstra algorithm for giving the correct path between the given two nodes startnode and endnode
 void dijkstra(int G[16][16],int n,int startnode,int endnode)
 {
-    int val,co=0,y;
+    int val,co=0,y;   //this is whole dijkstra algorithm for finding the minimum distance between the given nodes
     int arr[16]={214};
     int cost[16][16],distance[16],pred[16];
 	int visited[16],count,mindistance,nextnode,i,j;
     for(i=0;i<n;i++)
-		for(j=0;j<n;j++)
+    
+		for(j=0;j<n;j++)   
 			if(G[i][j]==0)
 				cost[i][j]=INFINITY;
 			else
@@ -232,12 +233,12 @@ void dijkstra(int G[16][16],int n,int startnode,int endnode)
 		pred[i]=startnode;
 		visited[i]=0;
 	 }
-    distance[startnode]=0;
-	visited[startnode]=1;
+    distance[startnode]=0;//used to find distance
+	visited[startnode]=1;//for defining wheathe we have visited to the node otr not
 	count=1;
     while(count<n-1)
 	{
-		mindistance=INFINITY;
+		mindistance=INFINITY;//defining maximum distacne first then we will set min distance 
 
 
 		for(i=0;i<n;i++)
@@ -373,7 +374,7 @@ void dijkstra(int G[16][16],int n,int startnode,int endnode)
 		     	forward();
     }
 
-        //condition 4
+    //condition 4
     else
     {
 
@@ -407,7 +408,7 @@ void dijkstra(int G[16][16],int n,int startnode,int endnode)
       }
 }
 
-void eyantra()
+void eyantra()//function used to define conection between the nodes if connection is present then it will 1 otherwise it will 0
 {
     int i,house,rem;
     int G[16][16]={
@@ -473,7 +474,7 @@ void eyantra()
 	    }
 	};
 
-    for(i=0;i<10;i++)
+    for(i=9;i>=0;i--)
     {
         //first zero check condition
         if(which_material[i]==0)
@@ -772,8 +773,8 @@ void eyantra()
 //driver code is here
 int main()
 {
-    set_direction();
-    eyantra();
+    set_direction();//function to define predefined directions 
+    eyantra();//function for defining whole condtion to traverse all the arena
     return 0;
 }
 
