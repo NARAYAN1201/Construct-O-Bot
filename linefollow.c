@@ -269,40 +269,40 @@ void forward_wls(unsigned int node)
 		{
 			forward();
 			velocity(80,77);
-			err = 0;
+			err = 0;                 //initializing previous error
 		}
 		else if(LWS>trsh && MWS<trsh && RWS<trsh)//left
 		{
 			soft_left();
 			velocity(70,80);
-			err = 1;
+			err = 1;                 //initializing previous error
 		}
 		else if(LWS<trsh && MWS<trsh && RWS>trsh)//right
 		{
 			soft_right();
 			velocity(80,70);
-			err = 2;
+			err = 2;                 //initializing previous error
 		}
-		else if(LWS<trsh && MWS<trsh && RWS<trsh && err == 0)
-		{
-			wall_data();
+		else if(LWS<trsh && MWS<trsh && RWS<trsh && err == 0)//if the line is thin then error is used to  
+		{                                                    //repsoition the bot and the are considered as the  
+			wall_data();                                 //previous error.
 			forward();
 			velocity(80,77);
-			err = 3;
+			err = 3;                 //initializing another error
 		}
-		else if(LWS<trsh && MWS<trsh && RWS<trsh && err == 1)
+		else if(LWS<trsh && MWS<trsh && RWS<trsh && err == 1)//for previous error
 		{
 			wall_data();
 			soft_right();
 			velocity(80,70);
-			err = 4;
+			err = 4;                 //initializing another error
 		}
-		else if(LWS<trsh && MWS<trsh && RWS<trsh && err == 2)
+		else if(LWS<trsh && MWS<trsh && RWS<trsh && err == 2)//for previous error
 		{
 			wall_data();
 			soft_left();
 			velocity(70,80);
-			err = 5;
+			err = 5;                  //initializing another error
 		}
 		else if((LWS>trsh && MWS>trsh) || (MWS>trsh && RWS>trsh) || (LWS>trsh && MWS>trsh && RWS>trsh))
 		{
@@ -314,19 +314,19 @@ void forward_wls(unsigned int node)
 			stop();
 			_delay_ms(2000);
 		}
-		else if(LWS<trsh && MWS<trsh && RWS<trsh && err==3)
-		{
-			wall_data();
+		else if(LWS<trsh && MWS<trsh && RWS<trsh && err==3)//if another error occured without being reposition 
+		{                                                  //in the right place then to change the movement of the bot 
+			wall_data();                               //towards opposite direction to bring it back to stable position.
 			forward();
 			velocity(80,77);
 		}
-		else if(LWS<trsh && MWS<trsh && RWS<trsh && err==4)
+		else if(LWS<trsh && MWS<trsh && RWS<trsh && err==4)//another error
 		{
 			wall_data();
 			soft_left();
 			velocity(70,80);
 		}
-		else if(LWS<trsh && MWS<trsh && RWS<trsh && err==5)
+		else if(LWS<trsh && MWS<trsh && RWS<trsh && err==5)//another error
 		{
 			wall_data();
 			soft_right();
@@ -498,12 +498,12 @@ while((value1<250)&&(value2<250))
 	}
 	else if(value1<163 && value2>163)
 	{
-		soft_left();
+		soft_left(); //for slight change in the direction of the movement of the bot
 		velocity(75,87);
 	}
 	else if(value1>163 && value2<163)
 	{
-		soft_right();
+		soft_right();  //for slight change in the direction of the movement of the bot
 		velocity(90,75);
 	}
 	else
