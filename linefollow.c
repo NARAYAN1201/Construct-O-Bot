@@ -5,7 +5,7 @@
 #include <math.h> //included to support power function
 #include "lcd.h"
 #define trsh 50
-int err =0;
+int err = 0;
 unsigned char ADC_Conversion(unsigned char);
 unsigned char LWS,RWS,MWS;
 unsigned char sharp1,sharp2, distance, adc_reading;
