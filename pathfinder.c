@@ -8,7 +8,7 @@
 
 void dijkstra(int G[16][16],int n,int startnode,int endnode);
 void h(int G[16][16],int house);
-int arena(int start,int end);
+int arena(int start, int end);
 void eyantra();
 
 //defining global variables 
